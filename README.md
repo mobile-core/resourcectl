@@ -4,10 +4,12 @@
 スクリプトを所定のディレクトリに配置します。
 
 ```bash
-$ sudo cp ~/k8s-mobilenetworks/tools/resourcectl/resourcectl /usr/local/bin/resourcectl
+$ cd resourcectl
+$ sudo cp resourcectl /usr/local/bin/resourcectl
 $ sudo chmod +x /usr/local/bin/resourcectl
-$ cp ~/k8s-mobilenetworks/tools/resourcectl/.k8sfourgrc ~/
-$ cp ~/k8s-mobilenetworks/tools/resourcectl/.k8sfivegrc ~/
+$ sudo cp mrshark.py /usr/local/bin/mrshark.py
+$ cp .k8sfourgrc ~/
+$ cp .k8sfivegrc ~/
 ```
 
 ### Use
@@ -166,4 +168,36 @@ $ resourcectl tcpdump stop
 
 ```bash
 $ resourcectl tcpdump get
+```
+
+### mrshark
+---
+
+PodにアサインされているIPを元に`wireshark`で使用できる`hosts`ファイルを作成します。
+
+```bash
+$ resourcectl mrshark -h
+Usage:
+    python3 mrshark.py [--free5gc] [--open5gs] [--version] [--help]
+
+Optional arguments:
+
+    -f, --f5gc        set the variable 'namespaces' to the string 'f5gc'
+    -o, --open5gs     set the variable 'namespaces' to the string 'open5gs'
+    -v, --version     show version information and exit
+    -h, --help        show this help message and exit
+
+Note:
+No need to give any arguments if you have already defined the namespaces.
+$
+```
+
+オプションで対象のNamespaceを指定することができます。
+
+現在サポートしているNamespaceは`f5gc`、`open5gs`の2つです。
+
+```bash
+$ resourcectl mrshark -f
+Create hosts file with f5gc!
+$
 ```
