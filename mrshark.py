@@ -1,20 +1,6 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*
 
-"""
-    Script Name: mrshark.py
-    Script Summary: kubectlコマンドを実行してpodsIp, serviceIpを取得し、
-                Wireshark用hostsファイルを作成する
-    Author: Moe Kobayashi
-    Change History: 2021.09.06... 初版
-                2021.09.07... 微修正
-                2021.09.09... cmdlineOptionsにデフォルト引数を指定、
-                    無効なオプション指定時の動作を追加
-                2021.09.29... execKubectlCommandに、
-                    リソースがない場合のエラー処理動作を追加
-"""
-
-
 # -------------------------------------------------- #
 # 標準モジュール
 # -------------------------------------------------- #

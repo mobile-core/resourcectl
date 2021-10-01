@@ -30,6 +30,10 @@ elsif ($ARGV[0] eq 'mongodb') {
     &processForMongodb();
 }
 
+elsif ($ARGV[0] eq 'mrshark') {
+    &processForMrShark();
+}
+
 elsif ($ARGV[0] eq 'completion') {
     &processForCompletion();
 }
@@ -52,7 +56,7 @@ else {
 # ==================================================
 # --------------------------------------------------
 sub displayVersion {
-    my $version = "1.0";
+    my $version = "1.1";
 
     print "resourcectl Version " . $version . "\n";
 }
@@ -72,6 +76,7 @@ sub displayNormalHelp {
     print "  node                Operate node resources\n";
     print "  pods                Operate the main container of the Pod\n";
     print "  tcpdump             Operate the pod side container\n";
+    print "  mrshark             Create hosts file\n";
     # print "  mongodb             Operate mongodb\n";
     print "\n";
     print "Options:\n";
@@ -578,7 +583,7 @@ sub executeTcpdumpGet {
         if ($nfuuid =~ /mongodb/) {
             next;
         }
- 
+
         my $kubecommand = `kubectl exec -n $namespaces -i $nfuuid -c tcpdump -- ls /tmp/ | grep pcap`;
         my @lines = split (/[\n\r]/, $kubecommand);
 
@@ -714,7 +719,7 @@ sub displayNormalCompletion() {
     print "    args=\"\"\n";
     print "\n";
     print "    if [ \${cword} -eq 1 ];then\n";
-    print "        args=\"node pods tcpdump\"\n";
+    print "        args=\"node pods tcpdump mrshark\"\n";
     print "    fi\n";
     print "\n";
     print "    if [ \${cword} -eq 2 ]; then\n";
@@ -742,7 +747,7 @@ sub displayDeveloperCompletion() {
     print "    args=\"\"\n";
     print "\n";
     print "    if [ \${cword} -eq 1 ];then\n";
-    print "        args=\"node pods tcpdump mongodb ueransim log completion\"\n";
+    print "        args=\"node pods tcpdump mongodb ueransim  mrshark log completion\"\n";
     print "    fi\n";
     print "\n";
     print "    if [ \${cword} -eq 2 ]; then\n";
@@ -925,3 +930,18 @@ sub processForUeransimFunctionGnb() {
 }
 
 # --------------------------------------------------
+sub processForMrShark() {
+    my $namespaces = $ENV{namespaces};
+    my $pyfile = "/usr/local/bin/mrshark.py";
+    my $mrshark = "";
+
+    if (!(defined($ARGV[1]))) {
+        $mrshark = "python3 " . $pyfile . " --" . $namespaces;
+    }
+
+    else {
+        $mrshark = "python3 " . $pyfile . " " . $ARGV[1];
+    }
+
+    system($mrshark);
+}
